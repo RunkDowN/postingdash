@@ -1,69 +1,110 @@
 <template>
-<v-app>
+  <v-app>
     <v-list>
       <v-list-tile
-        value="true"
-        v-for="(item, i) in items"
-        :key="i"
+      value="true"
+      v-for="(item, i) in items"
+      :key="i"
       >
-        <v-list-tile-content>
-          <v-list-tile-title v-text="item.title"></v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
+      <v-list-tile-content>
+        <v-list-tile-title v-text="item.title"></v-list-tile-title>
+
+      </v-list-tile-content>
+    </v-list-tile>
+  </v-list>
   <v-toolbar
-    app
-    :clipped-left="clipped"
+  app
+  :clipped-left="clipped"
   >
-    <v-toolbar-title v-text="title"></v-toolbar-title>
-    <v-spacer></v-spacer>
-  </v-toolbar>
-  <v-content>
+  <v-toolbar-title v-text="title"></v-toolbar-title>
 
-<template>
-
-<span class="display-1">14 мая</span> 
-<v-dialog v-model="dialog" persistent max-width="500px">
-<v-btn slot="activator" flat color="teal accent-4">Add New Post</v-btn>
+  <v-dialog v-model="dialogInput" persistent max-width="500px">
+    <v-btn slot= "activator" color="teal accent-4" dark>
+      <v-icon >backup</v-icon>
+    </v-btn>
     <v-card>
       <v-card-title>
-        <span class="headline">Post Form</span>
+        <span class="headline">Settings Form</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-layout wrap>
             <v-flex lg12 sm1>
-              <v-text-field label="Description" required multi-line flat color="teal accent-4"></v-text-field>
-            </v-flex>
-<v-layout row wrap>
-  <v-flex lg12 sm1>
-    <v-menu
-      ref="menu"
-      :close-on-content-click="false"
-      v-model="menu2"
-      :nudge-right="40"
-      :return-value.sync="time"
-      lazy
-      transition="scale-transition"
-      offset-y
-      full-width
-      max-width="290px"
-      min-width="290px"
-    >
-      <v-text-field
-        slot="activator"
-        v-model="time"
-        label="Picker in menu"
-        prepend-icon="access_time"
-        flat color="teal accent-4"
-        readonly
-      ></v-text-field>
-      <v-time-picker v-model="e7" @change="$refs.menu.save(time)" format="24hr" flat color="teal accent-4"></v-time-picker>
-    </v-menu>
+              <v-text-field
+              id="testing"
+              name="input-1"
+              label="Bot token"
+              color="teal accent-4"
+              ></v-text-field>
 
-  </v-flex>
-<v-spacer></v-spacer>
-</v-layout>
+              <v-text-field
+              id="testing"
+              name="input-1"
+              label="Channel link"
+              color="teal accent-4"
+              ></v-text-field>
+            </v-flex>
+
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="teal accent-4" flat @click.native="dialogInput = false">Close</v-btn>
+        <v-btn color="teal accent-4" flat @click.native="dialogInput = false">Save</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-spacer></v-spacer>
+  
+</v-toolbar>
+<v-content>
+
+  <template>
+    
+    <span class="display-1">14 май</span> 
+    <v-dialog v-model="dialog" persistent max-width="500px">
+      <v-btn slot="activator" flat color="teal accent-4">Add New Post</v-btn>
+      <v-card>
+        <v-card-title>
+          <span class="headline">Post Form</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex lg12 sm1>
+                <v-text-field label="Description" required multi-line flat color="teal accent-4"></v-text-field>
+              </v-flex>
+              <v-layout row wrap>
+                <v-flex lg12 sm1>
+                  <v-menu
+                  ref="menu"
+                  :close-on-content-click="false"
+                  v-model="menu2"
+                  :nudge-right="40"
+                  :return-value.sync="time"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                  >
+                  <v-text-field
+                  slot="activator"
+                  v-model="time"
+                  label="Picker in menu"
+                  prepend-icon="access_time"
+                  flat color="teal accent-4"
+                  readonly
+                  ></v-text-field>
+                  <v-time-picker v-model="e7" @change="$refs.menu.save(time)" format="24hr" flat color="teal accent-4"></v-time-picker>
+                </v-menu>
+
+              </v-flex>
+              <v-spacer></v-spacer>
+            </v-layout>
 
           </v-layout>
         </v-container>
@@ -77,14 +118,14 @@
   </v-dialog>
 
 
-<v-layout row>
-  <v-flex xs3>
+  <v-layout row>
+    <v-flex xs3>
 
-    <v-card>
-      <v-card-media
+      <v-card>
+        <v-card-media
         src="https://pbs.twimg.com/profile_images/980681269859241984/-4cD6ouV_400x400.jpg"
         height="200px"
-      >
+        >
       </v-card-media>
       <v-card-title primary-title>
         <div>
@@ -112,41 +153,42 @@
 </template>
 
 
-  </v-content>
-  <v-footer :fixed="fixed" app>
-    <span>&copy; 2017</span>
-  </v-footer>
+</v-content>
+<v-footer :fixed="fixed" app>
+  <span>&copy; 2017</span>
+</v-footer>
 </v-app>
 </template>
 
 <script>
-export default {
-data () {
-  return {
-    clipped: false,
-    drawer: true,
-    fixed: false,
-    items: [{
-      icon: 'bubble_chart',
-      title: 'Inspire'
-    }],
-    miniVariant: false,
-    right: true,
-    rightDrawer: false,
-    title: 'Vuetify.js'
+  export default {
+    data () {
+      return {
+        clipped: false,
+        drawer: true,
+        fixed: false,
+        items: [{
+          icon: 'bubble_chart',
+          title: 'Inspire'
+        }],
+        miniVariant: false,
+        right: true,
+        rightDrawer: false,
+        title: 'Vuetify.js'
+      }
+    },
+    name: 'App',
+    components: {
+    }
   }
-},
-name: 'App',
-components: {
-}
-}
 </script>
 
 <script>
-export default {
-  data: () => ({
-    show: false,
-    dialog: false
-  })
-}
+  export default {
+    data: () => ({
+      show: false,
+      dialog: false,
+      dialogInput: false,
+    })
+  }
 </script>
