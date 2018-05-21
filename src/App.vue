@@ -14,7 +14,6 @@
   </v-list>
   <v-toolbar
   app
-  :clipped-left="clipped"
   >
   <v-toolbar-title v-text="title"></v-toolbar-title>
 
@@ -55,72 +54,16 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-
   <v-spacer></v-spacer>
-  
 </v-toolbar>
+
 <v-content>
-
-  <template>
-    
     <span class="display-1">14 май</span> 
-    <v-dialog v-model="dialog" persistent max-width="500px">
-      <v-btn slot="activator" flat color="teal accent-4">Add New Post</v-btn>
-      <v-card>
-        <v-card-title>
-          <span class="headline">Post Form</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex lg12 sm1>
-                <v-text-field label="Description" required multi-line flat color="teal accent-4"></v-text-field>
-              </v-flex>
-              <v-layout row wrap>
-                <v-flex lg12 sm1>
-                  <v-menu
-                  ref="menu"
-                  :close-on-content-click="false"
-                  v-model="menu2"
-                  :nudge-right="40"
-                  :return-value.sync="time"
-                  lazy
-                  transition="scale-transition"
-                  offset-y
-                  full-width
-                  max-width="290px"
-                  min-width="290px"
-                  >
-                  <v-text-field
-                  slot="activator"
-                  v-model="time"
-                  label="Picker in menu"
-                  prepend-icon="access_time"
-                  flat color="teal accent-4"
-                  readonly
-                  ></v-text-field>
-                  <v-time-picker v-model="e7" @change="$refs.menu.save(time)" format="24hr" flat color="teal accent-4"></v-time-picker>
-                </v-menu>
+    <v-btn @click="newPost = true" flat color="teal accent-4">Add New Post</v-btn>
 
-              </v-flex>
-              <v-spacer></v-spacer>
-            </v-layout>
-
-          </v-layout>
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="teal accent-4" flat @click.native="dialog = false">Close</v-btn>
-        <v-btn color="teal accent-4" flat @click.native="dialog = false">Save</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-
-
-  <v-layout row>
+    <v-container fluid grid-list-lg>
+    <v-layout row wrap>
     <v-flex xs3>
-
       <v-card>
         <v-card-media
         src="https://pbs.twimg.com/profile_images/980681269859241984/-4cD6ouV_400x400.jpg"
@@ -150,11 +93,61 @@
 
   </v-flex>
 </v-layout>
-</template>
+    </v-container>
 
+<v-dialog v-model="newPost" persistent max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Post Form</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex lg12 sm1>
+                <v-text-field label="Description" required multi-line flat color="teal accent-4"></v-text-field>
+              </v-flex>
+              <v-layout row wrap>
+                <v-flex lg12 sm1>
+                  <v-menu
+                  ref="menu"
+                  :close-on-content-click="false"
+                  v-model="timePicker"
+                  :nudge-right="40"
+                  :return-value.sync="time"
+                  lazy
+                  transition="scale-transition"
+                  offset-y
+                  full-width
+                  max-width="290px"
+                  min-width="290px"
+                  >
+                  <v-text-field
+                  slot="activator"
+                  v-model="time"
+                  label="Picker in menu"
+                  prepend-icon="access_time"
+                  flat color="teal accent-4"
+                  readonly
+                  ></v-text-field>
+                  <v-time-picker v-model="time" @change="$refs.menu.save(time)" format="24hr" flat color="teal accent-4"></v-time-picker>
+                </v-menu>
 
+              </v-flex>
+              <v-spacer></v-spacer>
+            </v-layout>
+
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="teal accent-4" flat @click.native="newPost = false">Close</v-btn>
+        <v-btn color="teal accent-4" flat @click.native="newPost = false">Save</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-content>
-<v-footer :fixed="fixed" app>
+<v-footer  app>
   <span>&copy; 2017</span>
 </v-footer>
 </v-app>
@@ -164,31 +157,21 @@
   export default {
     data () {
       return {
-        clipped: false,
-        drawer: true,
-        fixed: false,
         items: [{
           icon: 'bubble_chart',
           title: 'Inspire'
         }],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
-        title: 'Vuetify.js'
+        title: 'Vuetify.js',
+      show: false,
+      dialog: false,
+      dialogInput: false,
+      newPost: false,
+      timePicker: false,
+      time: null,
       }
     },
     name: 'App',
     components: {
     }
-  }
-</script>
-
-<script>
-  export default {
-    data: () => ({
-      show: false,
-      dialog: false,
-      dialogInput: false,
-    })
   }
 </script>
