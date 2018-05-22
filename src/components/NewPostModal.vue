@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="newPostLocal" persistent max-width="500px">
+  <v-dialog v-model="newPost" persistent max-width="500px">
     <v-card>
       <v-card-title>
         <span class="headline">Post Form</span>
@@ -62,18 +62,12 @@
         data: function () {
             return {
                 timePicker: false,
-                time: null,
-                newPostLocal: false
+                time: null
             }
         },
         computed: {
             newPost: function () {
                 return this.propNewPost;
-            }
-        },
-        watch: {
-            newPost: function () {
-                this.newPostLocal = this.newPost;
             }
         },
         props: {
