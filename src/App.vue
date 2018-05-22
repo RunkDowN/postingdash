@@ -1,79 +1,33 @@
 <template>
     <v-app>
-        <v-list>
-            <v-list-tile
-                    value="true"
-                    v-for="(item, i) in items"
-                    :key="i"
-            >
-                <v-list-tile-content>
-                    <v-list-tile-title v-text="item.title"></v-list-tile-title>
-
-                </v-list-tile-content>
-            </v-list-tile>
-        </v-list>
-        <v-toolbar
-                app
-        >
+        <v-toolbar app>
             <v-toolbar-title v-text="title"></v-toolbar-title>
-
-            <v-dialog v-model="dialogInput" persistent max-width="500px">
-                <v-btn slot="activator" color="teal accent-4" dark>
-                    <v-icon>backup</v-icon>
-                </v-btn>
-                <v-card>
-                    <v-card-title>
-                        <span class="headline">Settings Form</span>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex lg12 sm1>
-                                    <v-text-field
-                                            id="testing"
-                                            name="input-1"
-                                            label="Bot token"
-                                            color="teal accent-4"
-                                    ></v-text-field>
-
-                                    <v-text-field
-                                            id="testing"
-                                            name="input-1"
-                                            label="Channel link"
-                                            color="teal accent-4"
-                                    ></v-text-field>
-                                </v-flex>
-
-                            </v-layout>
-                        </v-container>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="teal accent-4" flat @click.native="dialogInput = false">Close</v-btn>
-                        <v-btn color="teal accent-4" flat @click.native="dialogInput = false">Save</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-            <v-spacer></v-spacer>
+            <v-btn @click="settings = true" color="teal accent-4" dark>
+                <v-icon>backup</v-icon>
+            </v-btn>
         </v-toolbar>
 
         <v-content>
-            <span class="display-1">14 май</span>
-            <v-btn @click="newPost = true" flat color="teal accent-4">Add New Post</v-btn>
-
-            <v-container fluid grid-list-lg>
+            <v-container fluid grid-list-lg v-for="(day, index) in days" :key="index">
                 <v-layout row wrap>
-                    <v-flex xs3>
+                    <v-flex>
+                        <span class="display-1">{{ day.day }} {{ day.month }}</span>
+                        <v-btn @click="newPost = true" flat color="teal accent-4">Add New Post</v-btn>
+                    </v-flex>
+                </v-layout>
+
+                <v-layout row wrap>
+                    <v-flex xs3 v-for="(post, index) in day.posts" :key="index">
                         <v-card>
                             <v-card-media
-                                    src="https://pbs.twimg.com/profile_images/980681269859241984/-4cD6ouV_400x400.jpg"
+                                    :src= "post.media"
                                     height="200px"
                             >
                             </v-card-media>
                             <v-card-title primary-title>
                                 <div>
-                                    <div class="headline">12:12</div>
-                                    <span class="grey--text">Small description</span>
+                                    <div class="headline">{{ post.time }}</div>
+                                    <span class="grey--text">{{ post.smallDescription }}</span>
                                 </div>
                             </v-card-title>
                             <v-card-actions>
@@ -86,40 +40,90 @@
                             </v-card-actions>
                             <v-slide-y-transition>
                                 <v-card-text v-show="show">
-                                    I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                                    {{ post.fullDescription }}
                                 </v-card-text>
                             </v-slide-y-transition>
                         </v-card>
-
                     </v-flex>
                 </v-layout>
             </v-container>
 
             <modal-new-post v-bind:prop-new-post="newPost" @close="newPost = false"></modal-new-post>
+            <modal-settings v-bind:prop-settings="settings" @close="settings = false"></modal-settings>
         </v-content>
     </v-app>
 </template>
 
 <script>
     import NewPostModal from '@/components/NewPostModal.vue';
+    import SettingsModal from '@/components/SettingsModal.vue';
 
     export default {
         data: function () {
             return {
-                items: [{
-                    icon: 'bubble_chart',
-                    title: 'Inspire'
-                }],
                 title: 'Vuetify.js',
                 show: false,
-                dialog: false,
-                dialogInput: false,
+                settings: false,
                 newPost: false
+            }
+        },
+        computed: {
+            days: function () {
+                var days = [];
+                var locale = "en-us";
+                var allPosts = [
+                    {
+                        day: 23,
+                        month: 'May',
+                        fullDate: '23-05-2018',
+                        time: '16:45',
+                        smallDescription: 'Small description',
+                        fullDescription: 'Full description description description description description description description description description description description description',
+                        media: 'https://pbs.twimg.com/profile_images/980681269859241984/-4cD6ouV_400x400.jpg'
+                    }
+                ];
+
+                for (var i = 0; i <= 13; i++) {
+
+                    var date = new Date();
+                    date.setDate(date.getDate()+i);
+
+                    var dd = date.getDate();
+                    var mm = date.getMonth()+1;
+                    var month = date.toLocaleString(locale, {month: "long"});
+                    var yyyy = date.getFullYear();
+
+                    if(dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if(mm < 10) {
+                        mm = '0' + mm;
+                    }
+
+                    date = dd + '-' + mm + '-' + yyyy;
+
+                    var posts = [];
+
+                    allPosts.forEach(function (element) {
+                        if (date === element.fullDate) {
+                            posts.push(element);
+                        }
+                    });
+
+                    days.push({
+                        day: dd,
+                        month: month,
+                        fullDate: date,
+                        posts: posts
+                    });
+                }
+                return days;
             }
         },
         name: 'App',
         components: {
-            'modal-new-post': NewPostModal
+            'modal-new-post': NewPostModal,
+            'modal-settings': SettingsModal
         }
     }
 </script>
