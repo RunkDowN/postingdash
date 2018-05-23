@@ -2,7 +2,7 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title v-text="title"></v-toolbar-title>
-            <v-btn @click="settings = true" color="teal accent-4" dark>
+            <v-btn @click="settings = true" color="light-blue lighten-1" dark>
                 <v-icon>backup</v-icon>
             </v-btn>
         </v-toolbar>
@@ -11,8 +11,8 @@
             <v-container fluid grid-list-lg v-for="(day, index) in days" :key="index">
                 <v-layout row wrap>
                     <v-flex>
-                        <span class="display-1">{{ day.day }} {{ day.month }}</span>
-                        <v-btn @click="newPost = true" flat color="teal accent-4">Add New Post</v-btn>
+                        <span class="display-1" >{{ day.day }} {{ day.month }}</span>
+                        <v-btn @click="newPost = true" flat color="light-blue lighten-1">Add New Post</v-btn>
                     </v-flex>
                 </v-layout>
 
@@ -31,8 +31,8 @@
                                 </div>
                             </v-card-title>
                             <v-card-actions>
-                                <v-btn flat>Delete</v-btn>
-                                <v-btn flat color="teal accent-4">Edit</v-btn>
+                                <v-btn flat color="blue-grey lighten-2">Delete</v-btn>
+                                <v-btn flat color="light-blue lighten-1">Edit</v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon @click.native="show = !show">
                                     <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -61,7 +61,7 @@
     export default {
         data: function () {
             return {
-                title: 'Vuetify.js',
+                title: 'Posting Dash',
                 show: false,
                 settings: false,
                 newPost: false
