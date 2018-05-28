@@ -12,11 +12,13 @@
                                     name="bot_token"
                                     label="Bot token"
                                     color="light-blue lighten-1"
+                                    v-model="botToken"
                             ></v-text-field>
                             <v-text-field
                                     name="channel_link"
                                     label="Channel link"
                                     color="light-blue lighten-1"
+                                    v-model="channelLink"
                             ></v-text-field>
                         </v-flex>
 
@@ -26,7 +28,7 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-grey lighten-2" flat @click.native="close">Close</v-btn>
-                <v-btn color="light-blue lighten-1" flat @click.native="close">Save</v-btn>
+                <v-btn color="light-blue lighten-1" flat @click.native="saveSettings">Save</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -36,9 +38,13 @@
 </style>
 
 <script>
+    import axios from "axios";
+
     export default {
         data: function () {
             return {
+                botToken: '',
+                channelLink: ''
             }
         },
         computed: {
@@ -53,6 +59,20 @@
             close() {
                 this.$emit('close');
             },
+            saveSettings() {
+                var obj = {
+                    settings: {
+                        botToken: this.botToken,
+                        channelLink: this.channelLink,
+                    }
+                };
+
+                axios({
+                    method: 'post',
+                    url: '/save-settings',
+                    data: obj
+                });
+            }
         },
         name: 'SettingsModal',
         components: {}

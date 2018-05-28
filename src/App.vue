@@ -75,7 +75,7 @@
                     {
                         day: 23,
                         month: 'May',
-                        fullDate: '23-05-2018',
+                        fullDate: '01-06-2018',
                         time: '16:45',
                         smallDescription: 'Small description',
                         fullDescription: 'Full description description description description description description description description description description description description',
